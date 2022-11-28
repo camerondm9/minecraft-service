@@ -1,0 +1,9 @@
+
+[Unit]
+Description=Daily restart service
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/minecraft/util
+ExecStart=/opt/minecraft/util/daily-restart.sh
+Restart=no

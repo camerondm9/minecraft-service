@@ -1,0 +1,47 @@
+#!/bin/bash
+
+#Change directory to where the script lives
+cd "${0%/*}"
+
+#Ensure that we have a command to execute
+if [ $# -eq 0 ]; then
+	echo 'Specify command(s) to execute.'
+	../util/mcrcon -h
+	exit 1
+fi
+
+#Get list of possible server instances
+readarray -t INSTANCES < <(cd ../home/ && ls -d */)
+
+#Attempt to run command on each server instance
+for var in "${INSTANCES[@]}"; do
+	var="${var%/}"
+
+	#Check if folder contains a server.properties config file (can't be a server without it)
+	if [ -f "../home/$var/server.properties" ]; then
+		echo -n "$var: "
+		result="unknown"
+
+		#Read RCON-related settings from the config file
+		ENABLE_RCON=$(grep -Po '(?<=enable-rcon=)([a-zA-Z]+)' < "../home/$var/server.properties")
+		RCON_PORT=$(grep -Po '(?<=rcon\.port=)([0-9]+)' < "../home/$var/server.properties")
+		RCON_PASSWORD=$(grep -Po '(?<=rcon\.password=)(.+)' < "../home/$var/server.properties")
+
+		#Check if RCON is enabled
+		if [[ "$ENABLE_RCON" == "true" ]]; then
+			#Check if server is running
+			if systemctl status "minecraft@$var" | grep -Poq 'Active:\s+active\s+\((running|waiting)\)'; then
+				#Execute command
+				result=$(../util/mcrcon -P "$RCON_PORT" -p "$RCON_PASSWORD" "$@")
+				if [ -z "$result" ]; then
+					result="success"
+				fi
+			else
+				result="server not running"
+			fi
+		else
+			result="rcon not enabled"
+		fi
+		echo "$result"
+	fi
+done

@@ -1,0 +1,10 @@
+#!/bin/bash
+if [ $# -eq 0 ]; then
+	echo 'Specify an instance to connect to'
+	exit 1
+fi
+if [ $EUID -ne 0 ]; then
+	screen -x mc-${1%/}
+else
+	su minecraft -c "screen -x mc-${1%/}"
+fi

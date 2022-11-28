@@ -1,0 +1,4 @@
+startup_message off
+
+backtick 1 0 3 /opt/minecraft/util/memory-lite.sh ${STY}
+hardstatus alwaysfirstline 'Press ctrl-a, d to detach. Memory: %1`'

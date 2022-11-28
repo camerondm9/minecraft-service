@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ -n "$SYSTEMD_UNIT_NAME" ]; then
+	#Redirect stderr for examination
+	exec 2> >(exec /opt/minecraft/util/fatalitee ./stderr.log >&2)
+
+	#Become start script
+	echo 'Delegating to start script'
+	exec start.sh
+elif [ $# -gt 0 ]; then
+	set -- "${@%/}"
+	set -- "${@/#/minecraft@}"
+	exec systemctl start "$@"
+else
+	echo 'Specify an instance to start'
+	exit 1
+fi

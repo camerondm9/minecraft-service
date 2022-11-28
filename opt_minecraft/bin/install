@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ $# -gt 0 ]; then
+	chown -R minecraft:minecraft "$@"
+	chown root:root "$@/start.sh"
+	chmod +x "$@/start.sh"
+
+	set -- "${@%/}"
+	set -- "${@/#/minecraft@}"
+	exec systemctl enable "$@"
+else
+	echo 'Specify an instance to install'
+	exit 1
+fi

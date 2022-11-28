@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ $# -gt 0 ]; then
+	set -- "${@%/}"
+	set -- "${@/#/minecraft@}"
+	exec systemctl status "$@"
+else
+	exec systemctl status minecraft@* -an0
+fi

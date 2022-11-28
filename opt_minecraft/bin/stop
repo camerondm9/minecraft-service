@@ -1,0 +1,18 @@
+#!/bin/bash
+
+if [ -n "$SYSTEMD_UNIT_NAME" ]; then
+	if [ -n "$MAINPID" ]; then
+		TARGET="$(pgrep -oP "$MAINPID")"
+		TARGET="${TARGET:-$MAINPID}"
+		exec /opt/minecraft/util/killwait -SIGINT -t32s -v "$TARGET"
+	else
+		cat ./stderr.log
+	fi
+elif [ $# -gt 0 ]; then
+	set -- "${@%/}"
+	set -- "${@/#/minecraft@}"
+	exec systemctl stop "$@"
+else
+	echo 'Specify an instance to stop'
+	exit 1
+fi
