@@ -6,7 +6,7 @@ if [ $EUID -ne 0 ]; then
 fi
 
 # Create user
-useradd --system --no-create-home --home-dir /opt/minecraft/home --user-group minecraft
+useradd --system --shell "$SHELL" --no-create-home --home-dir /opt/minecraft/home --user-group minecraft
 
 # Move files into place
 mv opt_minecraft /opt/minecraft
