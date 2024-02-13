@@ -17,7 +17,10 @@
     ```bash
     /opt/minecraft/bin/stop NAME_OF_YOUR_FOLDER
     ```
-10. Edit `server.properties` to include these settings for RCON. This will allow the `broadcast` command to control your server while it's running (to send "The server is shutting down" warnings, etc.). DO NOT expose this port through the firewall or else your server will get hacked.
+10. Edit `server.properties` to include this setting to enable RCON. This will allow the `broadcast` command to control your server while it's running (to send "The server is shutting down" warnings, etc.). DO NOT expose the RCON port through the firewall or else your server will get hacked.
+    ```properties
+    enable-rcon=true
+    ```
 11. Also edit `server.properties` to configure Minecraft as you wish. This is also a good time to edit mod configs, etc. Memory config for Java can be set in your `start.sh` script.
 12. If you changed anything even remotely related to world generation (especially world type or mod configs), delete the Minecraft save folder.
 13. Start the server again. It will use your new configuration.
@@ -35,3 +38,4 @@
     - User whitelist
     - User command permission levels (ops, etc.)
     - If you're running a modded server, consider setting up the FTB *mods* for easier administration of backups, teleports, etc.
+    - Ports (in `server.properties` and in the `ufw` firewall), if you're going to run multiple servers at the same time
