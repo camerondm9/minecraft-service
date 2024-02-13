@@ -6,7 +6,7 @@ if [ -n "$SYSTEMD_UNIT_NAME" ]; then
 
 	#Become start script
 	echo 'Delegating to start script'
-	exec start.sh
+	exec ./start.sh
 elif [ $# -gt 0 ]; then
 	set -- "${@%/}"
 	set -- "${@/#/minecraft@}"
