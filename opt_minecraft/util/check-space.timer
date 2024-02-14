@@ -1,0 +1,13 @@
+
+[Unit]
+Description=Check disk space timer
+
+[Timer]
+Unit=check-space.service
+OnCalendar=*-*-* *:02/20:00
+RandomizedDelaySec=6m
+AccuracySec=6m
+Persistent=false
+
+[Install]
+WantedBy=timers.target

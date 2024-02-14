@@ -13,6 +13,8 @@ mv opt_minecraft /opt/minecraft
 ln -s /opt/minecraft/util/minecraft@.service /etc/systemd/system/minecraft@.service
 ln -s /opt/minecraft/util/daily-restart.service /etc/systemd/system/daily-restart.service
 ln -s /opt/minecraft/util/daily-restart.timer /etc/systemd/system/daily-restart.timer
+ln -s /opt/minecraft/util/check-space.service /etc/systemd/system/check-space.service
+ln -s /opt/minecraft/util/check-space.timer /etc/systemd/system/check-space.timer
 
 # Set permissions
 chown -R root:root /opt/minecraft
@@ -33,6 +35,8 @@ popd
 systemctl daemon-reload
 systemctl enable daily-restart.timer
 systemctl start daily-restart.timer
+systemctl enable check-space.timer
+systemctl start check-space.timer
 
 # Display final instructions
 echo "Minecraft service components have been set up."

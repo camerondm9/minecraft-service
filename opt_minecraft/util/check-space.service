@@ -1,0 +1,9 @@
+
+[Unit]
+Description=Check disk space service
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/minecraft/util
+ExecStart=/opt/minecraft/util/check-space.sh
+Restart=no
